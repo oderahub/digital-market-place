@@ -2,7 +2,6 @@ import dotenv from "dotenv"
 import path from "path"
 import {InitOptions} from "payload/config"
 import payload from "payload"
-import { error } from "console"
 
 dotenv.config({
     path: path.resolve(__dirname, "../.env")
