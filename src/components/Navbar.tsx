@@ -4,9 +4,13 @@ import { Icons } from "./Icons"
 import NavItems from "./NavItems"
 import { buttonVariants } from "./ui/button"
 import Cart from "./Cart"
+import { cookies } from "next/headers"
+import { getServerSideUser } from "@/lib/payload-utils"
 
-const Navbar = ()=>{
-  const user = null
+const Navbar = async () =>{
+    const nextcookies = cookies()
+  const { user } = await getServerSideUser(nextcookies)
+
     return (
         <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
             <header className="realative bg-white">
@@ -30,13 +34,23 @@ const Navbar = ()=>{
                                         <Link href="./sign-in" className={buttonVariants ({variant: "ghost"})}>Sign in</Link>
                                     )}
 
-                                    {user ? null : ( <span className="h-6 w-px bg-gray-200" aria-hidden="true" />)}
+                                    {user ? null : ( 
+                                        
+                                        <span className="h-6 w-px bg-gray-200" aria-hidden="true" />)}
 
-                                    {user ? (<p></p>) :(<Link href="./sign-up" className={buttonVariants({variant:"ghost",})}>Create Account</Link>) }
+                                    {user ? (<p></p>
+                                    
+                                    ) :(
+                                        
+                                        <Link href="./sign-up" className={buttonVariants({variant:"ghost",})}>Create Account</Link>) }
 
-                                    {user ? ( <span className="h-6 w-px bg-gray-200" aria-hidden="true" />): null}
+                                    {user ? (
+                                        
+                                        <span className="h-6 w-px bg-gray-200" aria-hidden="true" />): null}
 
-                                    {user ? null : <div className="flex lg:ml-6 ">
+                                    {user ? null : 
+                                    
+                                    <div className="flex lg:ml-6 ">
                                          <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                                         </div>}
 
