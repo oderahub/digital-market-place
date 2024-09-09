@@ -3,13 +3,21 @@ import { getPayloadClient } from "./get-payload"
 import { nextApp, nextHandler } from "./next-utls"
 import { appRouter } from "./trpc"
 import * as trpcExpress from "@trpc/server/adapters/express"
+import { inferAsyncReturnType } from "@trpc/server"
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000 
 
-const createContext = ({req, res }: trpcExpress.CreateExpressContextOptions) => ({
-    req, res,
+const createContext = ({
+    req, 
+    res, 
+}: trpcExpress.CreateExpressContextOptions) => ({
+    req, 
+    res,
 })
+
+export type ExpressContext = inferAsyncReturnType<typeof createContext>
+
 
 const start = async() => { 
     const payload = await getPayloadClient ({
@@ -24,7 +32,8 @@ const start = async() => {
      // when we get a request we forward it to trpc
      // trpc middleware
 
-    app.use("/api/trpc", trpcExpress.createExpressMiddleware({
+    app.use("/api/trpc", 
+        trpcExpress.createExpressMiddleware({
         router: appRouter,
         createContext 
     }))
