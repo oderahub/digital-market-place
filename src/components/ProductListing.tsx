@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { Product } from '../payload-types'
 import { Skeleton } from './ui/skeleton'
 import { Link } from 'lucide-react'
-import { cn } from '../lib/utils'
-import { PRODUCT_CATEGORIES } from '@/config'
+import { cn, formatPrice } from '../lib/utils'
+import { PRODUCT_CATEGORIES } from '../config'
 
 interface ProductListingProps {
   product: Product | null
@@ -35,7 +35,8 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
       >
         <div className="flex flex-col w-full">
           <h3 className="mt-4 font-medium text-sm text-gray-700">{product.name}</h3>
-          <p className="mt-1 text-sm text-gray-500">{product.category}</p>
+          <p className="mt-1 text-sm text-gray-500">{label}</p>
+          <p className="mt-1 font-medium text-sm text-gray-900">{formatPrice(product.price)}</p>
         </div>
       </Link>
     )
