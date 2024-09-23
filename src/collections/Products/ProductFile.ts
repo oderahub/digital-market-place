@@ -1,5 +1,5 @@
 import { Access, CollectionConfig } from 'payload/types'
-import { User } from '../../payload-types'
+import { Product, User } from '../../payload-types'
 import { BeforeChangeHook } from 'payload/dist/collections/config/types'
 
 const yourOwnAndPurchased: Access = async ({ req }) => {
@@ -34,13 +34,16 @@ const yourOwnAndPurchased: Access = async ({ req }) => {
   })
   const purchasedProductFileIds = orders
     .map((order) => {
-      return order.products.map((product) => {
-        if (typeof product === 'string')
-          return req.payload.logger.error('Search depth not sufficient to find purchased file IDs')
+      // Assuming `order.products` is an array of Product or string references
+      return (order.products as (string | Product)[]).map((product) => {
+        if (typeof product === 'string') {
+          req.payload.logger.error('Search depth not sufficient to find purchased file IDs')
+          return null // Handle the case where product is a string (id) rather than an object
+        }
 
         return typeof product.product_file === 'string'
-          ? product.product_file
-          : product.product_file.id
+          ? product.product_file // If `product_file` is a string (id), return it directly
+          : product.product_file.id // Otherwise, return the `id` of the product file
       })
     })
     .filter(Boolean)
