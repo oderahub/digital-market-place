@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Product } from '../payload-types'
 import { Skeleton } from './ui/skeleton'
-import { Link } from 'lucide-react'
+import Link from 'next/link'
 import { cn, formatPrice } from '../lib/utils'
 import { PRODUCT_CATEGORIES } from '../config'
 import ImageSlider from './ImageSlider'
-import { boolean } from 'zod'
 
 interface ProductListingProps {
   product: Product | null
@@ -37,7 +36,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
         className={cn('invincible h-full w-full cursor-pointer group/main', {
           'visible animate-in fade-in-5': isVisible
         })}
-        href={`/prduct/${product.id}`}
+        href={`/product/${product.id}`}
       >
         <div className="flex flex-col w-full">
           <ImageSlider urls={validUrls} />

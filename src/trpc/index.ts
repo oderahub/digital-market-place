@@ -3,7 +3,6 @@ import { authRouter } from './auth-router'
 import { publicProcedure, router } from './trpc'
 import { QueryValidator } from '../lib/validators/query-validator'
 import { getPayloadClient } from '../get-payload'
-import { Product } from '../payload-types'
 
 export const appRouter = router({
   auth: authRouter,
