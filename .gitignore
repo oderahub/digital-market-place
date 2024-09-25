@@ -37,3 +37,9 @@ yarn-error.log*
 next-env.d.ts
 .env
 yarn.lock
+
+# Ignore media files
+/src/media/
+/src/images/
+/src/uploads/
+/src/product_files/
