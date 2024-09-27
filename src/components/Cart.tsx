@@ -69,7 +69,7 @@ const Cart = () => {
               <SheetFooter>
                 <SheetTrigger asChild>
                   <Link
-                    href="./cart"
+                    href="/cart"
                     className={buttonVariants({
                       className: 'w-full '
                     })}
