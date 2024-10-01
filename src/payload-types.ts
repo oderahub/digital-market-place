@@ -23,6 +23,7 @@ export interface Config {
  * via the `definition` "users".
  */
 export interface User {
+  products: never[]
   id: string
   role: 'admin' | 'user'
   updatedAt: string
