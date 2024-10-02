@@ -6,7 +6,9 @@ import { ImageIcon, X } from 'lucide-react'
 import Image from 'next/image'
 
 const CartItem = ({ product }: { product: Product }) => {
-  const label = PRODUCT_CATEGORIES.find(({ value }) => value === product.category)?.label
+  const label = PRODUCT_CATEGORIES.find(
+    ({ value }) => value.toString() === product.category.toString()
+  )?.label
 
   const { removeItem } = useCart()
 

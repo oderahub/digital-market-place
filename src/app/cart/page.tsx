@@ -65,7 +65,9 @@ const Page = () => {
               })}
             >
               {items.map(({ product }) => {
-                const label = PRODUCT_CATEGORIES.find((c) => c.value === product.category)?.label
+                const label = PRODUCT_CATEGORIES.find(
+                  (c) => c.value === (product.category as string)
+                )?.label
 
                 const { image } = product.images[0]
 

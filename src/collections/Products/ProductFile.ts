@@ -19,7 +19,7 @@ const yourOwnAndPurchased: Access = async ({ req }) => {
     }
   })
   // geting all the product you own
-  const ownProductFileIds = products.map((prod) => prod.product_file).flat()
+  const ownProductFileIds = products.map((prod) => prod.product_files).flat()
 
   // access to all products bought
 
@@ -41,9 +41,9 @@ const yourOwnAndPurchased: Access = async ({ req }) => {
           return null // Handle the case where product is a string (id) rather than an object
         }
 
-        return typeof product.product_file === 'string'
-          ? product.product_file // If `product_file` is a string (id), return it directly
-          : product.product_file.id // Otherwise, return the `id` of the product file
+        return typeof product.product_files === 'string'
+          ? product.product_files // If `product_file` is a string (id), return it directly
+          : product.product_files.id // Otherwise, return the `id` of the product file
       })
     })
     .filter(Boolean)

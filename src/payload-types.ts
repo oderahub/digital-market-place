@@ -23,7 +23,7 @@ export interface Config {
  * via the `definition` "users".
  */
 export interface User {
-  products: never[]
+  products?: (string | Product)[] | null
   id: string
   role: 'admin' | 'user'
   updatedAt: string
@@ -49,11 +49,9 @@ export interface Product {
   name: string
   description?: string | null
   price: number
-  category: 'ui_kits' | 'icons'
-  product_file: string | ProductFile
+  category: 'digital' | 'physical'
+  product_files: string | ProductFile
   approvedForSale?: ('pending' | 'approved' | 'denied') | null
-  priceId?: string | null
-  paystackId?: string | null
   images: {
     image: string | Media
     id?: string | null
@@ -171,5 +169,5 @@ export interface PayloadMigration {
 }
 
 declare module 'payload' {
-  export interface PayloadGeneratedTypes extends Config {}
+  export interface GeneratedTypes extends Config {}
 }

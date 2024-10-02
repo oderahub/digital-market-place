@@ -145,7 +145,7 @@ export const paymentRouter = router({
         collection: 'orders',
         data: {
           _isPaid: false,
-          products: filteredProducts.map((prod) => prod.id),
+          products: filteredProducts.map((prod) => prod.id.toString()),
           user: user.id
         }
       })
@@ -155,7 +155,7 @@ export const paymentRouter = router({
         amount: totalAmount, // Total amount in kobo
         email: user.email,
         reference: `order_${order.id}`,
-        callback_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId${order.id}`,
+        callback_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
         metadata: {
           userId: user.id,
           orderId: order.id,
@@ -164,5 +164,29 @@ export const paymentRouter = router({
       })
 
       return { url: paystackSession.data.authorization_url }
+    }),
+  pollingOrderStatus: privateProcedure
+    .input(z.object({ orderId: z.string() }))
+    .query(async ({ input }) => {
+      const { orderId } = input
+
+      const payload = await getPayloadClient()
+
+      const { docs: orders } = await payload.find({
+        collection: 'orders',
+        where: {
+          id: {
+            equals: orderId
+          }
+        }
+      })
+
+      if (!orders.length) {
+        throw new TRPCError({ code: 'NOT_FOUND' })
+      }
+
+      const [order] = orders
+
+      return { isPaid: order._isPaid }
     })
 })

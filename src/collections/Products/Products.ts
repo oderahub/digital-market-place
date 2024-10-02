@@ -16,10 +16,10 @@ const syncUser: AfterChangeHook<Product> = async ({ req, doc }) => {
   })
 
   if (fullUser && typeof fullUser === 'object') {
-    const products = fullUser.products as Product[] // Explicitly cast as an array of Product
+    const products = fullUser.products as Array<string | Product> // Explicitly cast as an array of Product
 
     const allIDs =
-      products?.map((product: Product) => {
+      products?.map((product: string | Product) => {
         return typeof product === 'object' ? product.id : product
       }) || []
 
