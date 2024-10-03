@@ -28,13 +28,34 @@ const ProductReel = (props: ProductReelProps) => {
     }
   )
 
-  const products = queryResults?.pages.flatMap((page) => page.items)
+  const products = queryResults?.pages.flatMap((page) => page.items) || []
 
+  // Ensure products conform to Product type
   let map: (Product | null)[] = []
-  if (products && products.length) {
-    map = products
+  if (products.length > 0) {
+    map = products.map((product) => {
+      // Type guard to ensure product is valid
+      if (isProduct(product)) {
+        return product
+      }
+      return null
+    })
   } else if (isLoading) {
     map = new Array<null>(query.limit ?? FALLBACK_LIMIT).fill(null)
+  }
+
+  // Type guard function
+  function isProduct(product: any): product is Product {
+    return (
+      product &&
+      typeof product === 'object' &&
+      'id' in product &&
+      'name' in product &&
+      'price' in product &&
+      'category' in product &&
+      'product_files' in product &&
+      'images' in product
+    )
   }
 
   return (

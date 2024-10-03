@@ -11,6 +11,17 @@ interface ProductListingProps {
   index: number
 }
 
+const mapCategory = (category: 'digital' | 'physical'): 'ui_kits' | 'icons' | undefined => {
+  switch (category) {
+    case 'digital':
+      return 'ui_kits'
+    case 'physical':
+      return 'icons'
+    default:
+      return undefined
+  }
+}
+
 const ProductListing = ({ product, index }: ProductListingProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
@@ -24,7 +35,10 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
 
   if (!product || !isVisible) return <ProductPlaceholder />
 
-  const label = PRODUCT_CATEGORIES.find(({ value }) => value === product.category)?.label
+  // Map the product category to the appropriate value in PRODUCT_CATEGORIES
+  const mappedCategory = mapCategory(product.category)
+
+  const label = PRODUCT_CATEGORIES.find(({ value }) => value === mappedCategory)?.label
 
   const validUrls = product.images
     .map(({ image }) => (typeof image === 'string' ? image : image.url))
