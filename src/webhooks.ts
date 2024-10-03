@@ -4,6 +4,8 @@ import { getPayloadClient } from './get-payload'
 import { verifyPayment } from './lib/paystack'
 import crypto from 'crypto'
 import { Resend } from 'resend'
+import { ReceiptEmailHtml } from './components/Email/ReceiptEmail'
+import { Product } from './payload-types'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -98,6 +100,23 @@ export const paystackWebhookHandler = async (req: express.Request, res: express.
       })
 
       // send receipt
+      try {
+        const data = await resend.emails.send({
+          from: 'DigitalHippo <hello@joshtriedcoding.com>',
+          to: [user.email], // Use the actual user object from the order
+          subject: 'Thanks for your order! This is your receipt.',
+          html: await ReceiptEmailHtml({
+            date: new Date(),
+            email: user.email,
+            orderId: order.id as string,
+            products: order.products as Product[]
+          })
+        })
+        return res.status(200).json({ data })
+      } catch (error) {
+        console.error('Error sending email:', error)
+        return res.status(500).json({ error: 'Email sending failed', details: error })
+      }
     }
 
     return res.status(200).send('Webhook processed successfully')
