@@ -1,4 +1,3 @@
-import { equal } from 'assert'
 import { Access, CollectionConfig } from 'payload/types'
 
 const yourOwn: Access = ({ req: { user } }) => {
@@ -52,6 +51,30 @@ export const Orders: CollectionConfig = {
       relationTo: 'products',
       required: true,
       hasMany: true
+    },
+    {
+      name: 'paymentReference',
+      type: 'text',
+      access: {
+        read: ({ req }) => req.user.role === 'admin',
+        create: () => false,
+        update: () => false // Allow programmatic updates
+      },
+      admin: {
+        hidden: true
+      }
+    },
+    {
+      name: 'paymentProvider',
+      type: 'text',
+      access: {
+        read: ({ req }) => req.user.role === 'admin',
+        create: () => false,
+        update: () => false // Allow programmatic updates
+      },
+      admin: {
+        hidden: true
+      }
     }
   ]
 }

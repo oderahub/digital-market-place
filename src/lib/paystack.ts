@@ -13,7 +13,7 @@ export const paystack = {
     }) => {
       const response = await axios.post('https://api.paystack.co/transaction/initialize', data, {
         headers: {
-          Authorization: `Bearer ${paystackSecretKey}`,
+          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
           'Content-Type': 'application/json'
         }
       })
@@ -22,17 +22,27 @@ export const paystack = {
   }
 }
 
-// Paystack integration to verify payment
+// Paystack verify payment
+
 export const verifyPayment = async (reference: string) => {
   try {
     const response = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
       headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
+        Authorization: `Bearer ${paystackSecretKey}`
       }
     })
 
+    if (response.data.status !== 'success') {
+      throw new Error('Payment verification failed')
+    }
+
     return response.data
   } catch (error) {
+    if (error instanceof Error) {
+      console.error(`Error verifying payment: ${error.message}`)
+    } else {
+      console.error('Error verifying payment: Unknown error')
+    }
     throw new Error('Failed to verify payment')
   }
 }
