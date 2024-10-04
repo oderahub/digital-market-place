@@ -18,11 +18,11 @@ const syncUser: AfterChangeHook<Product> = async ({ req, doc }) => {
   if (fullUser && typeof fullUser === 'object') {
     const products = fullUser.products as Array<string | Product> // Explicitly cast as an array of Product
 
-    const allIDs =
-      products?.map((product: string | Product) => {
-        return typeof product === 'object' ? product.id : product
-      }) || []
-
+    const allIDs = [
+      ...(products?.map((product: string | Product) =>
+        typeof product === 'object' ? product.id : product
+      ) || [])
+    ]
     const createdProductIDs = allIDs.filter((id, index) => allIDs.indexOf(id) === index)
     const dataToUpdate = [...createdProductIDs, doc.id]
 
