@@ -70,7 +70,7 @@ const start = async () => {
     return nextApp.render(req, res, '/cart', parsedUrl.query)
   })
 
-  app.use('/cart')
+  app.use('/cart', cartRouter)
 
   // when we get a request we forward it to trpc
   // trpc middleware
