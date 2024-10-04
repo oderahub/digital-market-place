@@ -1,10 +1,10 @@
+thumbnail](https://github.com/user-attachments/assets/aa44fd52-b36b-45ea-ab93-90b6bf587cd3)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:![thumbnail](https://github.com/user-attachments/assets/aa44fd52-b36b-45ea-ab93-90b6bf587cd3)
-
-
+First, run the development server:!
 ```bash
 npm run dev
 # or
