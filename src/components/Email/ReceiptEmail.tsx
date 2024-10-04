@@ -150,7 +150,8 @@ export const ReceiptEmail = ({ email, date, orderId, products }: ReceiptEmailPro
             <Link href="#">Privacy Policy </Link>
           </Text>
           <Text style={footerCopyright}>
-            Copyright © 2023 DigitalHippo Inc. <br /> <Link href="#">All rights reserved</Link>
+            Copyright © 2024 Digitalmarketplace Inc. <br />{' '}
+            <Link href="#">All rights reserved</Link>
           </Text>
         </Container>
       </Body>

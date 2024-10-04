@@ -35,8 +35,8 @@ export const EmailTemplate = ({ actionLabel, buttonText, href }: EmailTemplatePr
           />
           <Text style={paragraph}>Hi there,</Text>
           <Text style={paragraph}>
-            Welcome to DigitalHippo, the marketplace for high quality digital goods. Use the button
-            below to {actionLabel}.
+            Welcome to Digitalmarketplace, the marketplace for high quality digital goods. Use the
+            button below to {actionLabel}.
           </Text>
           <Section style={btnContainer}>
             <Button style={button} href={href}>
@@ -46,7 +46,7 @@ export const EmailTemplate = ({ actionLabel, buttonText, href }: EmailTemplatePr
           <Text style={paragraph}>
             Best,
             <br />
-            The DigitalHippo team
+            The Digitalmarketplace team
           </Text>
           <Hr style={hr} />
           <Text style={footer}>If you did not request this email, you can safely ignore it.</Text>
