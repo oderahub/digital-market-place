@@ -18,6 +18,11 @@ export const getServerSideUser = async (
       Authorization: `JWT ${token}`
     }
   })
+
+  if (!meRes.ok) {
+    return { user: null }
+  }
+
   const { user } = (await meRes.json()) as {
     user: User | null
   }
