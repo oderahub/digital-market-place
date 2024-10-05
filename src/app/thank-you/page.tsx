@@ -8,6 +8,7 @@ import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
+import { toast } from 'sonner'
 
 interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -42,12 +43,9 @@ const ThankyouPage = async ({ searchParams }: PageProps) => {
       : order.user
 
   if (orderUserId !== user?.id) {
-    return redirect(`/sign-in?origin=${encodeURIComponent(`/thank-you?orderId=${order.id}`)}`)
+    toast.info('🚀 Please sign in to complete your order!')
+    return redirect(`/sign-in?origin=thank-you&orderId=${order.id}`)
   }
-
-  // if (!user) {
-  //   return redirect(`/sign-in?origin=${encodeURIComponent('/checkout')}`)
-  // }
 
   const products = order.products as Product[]
 
