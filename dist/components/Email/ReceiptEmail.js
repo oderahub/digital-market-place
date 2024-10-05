@@ -101,9 +101,9 @@ var ReceiptEmail = function (_a) {
                     ' ',
                     React.createElement(components_1.Link, { href: "#" }, "Privacy Policy ")),
                 React.createElement(components_1.Text, { style: footerCopyright },
-                    "Copyright \u00A9 2023 DigitalHippo Inc. ",
+                    "Copyright \u00A9 2024 Digitalmarketplace Inc. ",
                     React.createElement("br", null),
-                    " ",
+                    ' ',
                     React.createElement(components_1.Link, { href: "#" }, "All rights reserved"))))));
 };
 exports.ReceiptEmail = ReceiptEmail;

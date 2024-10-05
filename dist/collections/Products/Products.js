@@ -81,9 +81,9 @@ var syncUser = function (_a) { return __awaiter(void 0, [_a], void 0, function (
                 if (!(fullUser && typeof fullUser === 'object')) return [3 /*break*/, 3];
                 products = fullUser.products // Explicitly cast as an array of Product
                 ;
-                allIDs_1 = (products === null || products === void 0 ? void 0 : products.map(function (product) {
+                allIDs_1 = __spreadArray([], ((products === null || products === void 0 ? void 0 : products.map(function (product) {
                     return typeof product === 'object' ? product.id : product;
-                })) || [];
+                })) || []), true);
                 createdProductIDs = allIDs_1.filter(function (id, index) { return allIDs_1.indexOf(id) === index; });
                 dataToUpdate = __spreadArray(__spreadArray([], createdProductIDs, true), [doc.id], false);
                 return [4 /*yield*/, req.payload.update({
