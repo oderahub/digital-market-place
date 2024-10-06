@@ -25,6 +25,7 @@ export function formatPrice(
   }).format(numericPrice)
 }
 
+//metadata
 export function constructMetadata({
   title = 'Digitalmarketplace - the marketplace for digital assets',
   description = 'DigitalHippo is a marketplace for high-quality digital goods.',
