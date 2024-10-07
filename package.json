@@ -17,6 +17,10 @@
   "resolutions": {
     "cliui": "7.0.2"
   },
+  "engines": {
+    "node": ">=18",
+    "yarn": ">=1.22.0"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@payloadcms/bundler-webpack": "^1.0.7",
