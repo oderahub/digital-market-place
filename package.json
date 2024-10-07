@@ -4,7 +4,7 @@
   "private": true,
   "main": "dist/server.js",
   "scripts": {
-    "dev": "NODE_OPTIONS='--max-old-space-size=4096' cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts nodemon ",
+    "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts nodemon ",
     "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
     "build:payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload build",
     "build:server": "tsc --project tsconfig.server.json",
