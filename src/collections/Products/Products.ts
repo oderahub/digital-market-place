@@ -1,6 +1,7 @@
 import { AfterChangeHook, BeforeChangeHook } from 'payload/dist/collections/config/types'
 import { Access, CollectionConfig } from 'payload/types'
 import { Product, User } from '../../payload-types'
+import { PRODUCT_CATEGORIES } from '../../config'
 
 // Add the user to the product
 const addUser: BeforeChangeHook<Product> = async ({ req, data }) => {
@@ -111,10 +112,8 @@ export const Products: CollectionConfig = {
       name: 'category',
       label: 'Category',
       type: 'select',
-      options: [
-        { label: 'Digital', value: 'digital' },
-        { label: 'Physical', value: 'physical' }
-      ], // Replace this with dynamic categories if needed
+      options: PRODUCT_CATEGORIES.map(({ label, value }) => ({ label, value })),
+      // Replace this with dynamic categories if needed
       required: true
     },
     {

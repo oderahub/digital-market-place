@@ -34,6 +34,7 @@ function formatPrice(price, options) {
         maximumFractionDigits: 2
     }).format(numericPrice);
 }
+//metadata
 function constructMetadata(_a) {
     var _b = _a === void 0 ? {} : _a, _c = _b.title, title = _c === void 0 ? 'Digitalmarketplace - the marketplace for digital assets' : _c, _d = _b.description, description = _d === void 0 ? 'DigitalHippo is a marketplace for high-quality digital goods.' : _d, _e = _b.image, image = _e === void 0 ? '/thumbnail.png' : _e, _f = _b.icons, icons = _f === void 0 ? '/favicon.ico' : _f, _g = _b.noIndex, noIndex = _g === void 0 ? false : _g;
     return __assign({ title: title, description: description, openGraph: {
@@ -50,7 +51,7 @@ function constructMetadata(_a) {
             description: description,
             images: [image],
             creator: '@oderahdev'
-        }, icons: icons, metadataBase: new URL('https://localhost:3000') }, (noIndex && {
+        }, icons: icons, metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL) }, (noIndex && {
         robots: {
             index: false,
             follow: false

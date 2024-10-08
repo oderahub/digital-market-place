@@ -28,11 +28,10 @@ const ProductReel = (props: ProductReelProps) => {
     }
   )
 
-  const products = queryResults?.pages.flatMap((page) => page.items) || []
+  const products = queryResults?.pages.flatMap((page) => page.items)
 
-  // Ensure products conform to Product type
   let map: (Product | null)[] = []
-  if (products.length > 0) {
+  if (products && products.length) {
     map = products.map((product) => {
       // Type guard to ensure product is valid
       if (isProduct(product)) {
@@ -45,7 +44,7 @@ const ProductReel = (props: ProductReelProps) => {
   }
 
   // Type guard function
-  function isProduct(product: any): product is Product {
+  function isProduct(product: object): product is Product {
     return (
       product &&
       typeof product === 'object' &&

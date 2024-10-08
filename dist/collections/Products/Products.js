@@ -57,6 +57,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Products = void 0;
+var config_1 = require("../../config");
 // Add the user to the product
 var addUser = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
     var user;
@@ -175,10 +176,11 @@ exports.Products = {
             name: 'category',
             label: 'Category',
             type: 'select',
-            options: [
-                { label: 'Digital', value: 'digital' },
-                { label: 'Physical', value: 'physical' }
-            ], // Replace this with dynamic categories if needed
+            options: config_1.PRODUCT_CATEGORIES.map(function (_a) {
+                var label = _a.label, value = _a.value;
+                return ({ label: label, value: value });
+            }),
+            // Replace this with dynamic categories if needed
             required: true
         },
         {
