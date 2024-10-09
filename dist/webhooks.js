@@ -48,7 +48,7 @@ var ReceiptEmail_1 = require("./components/Email/ReceiptEmail");
 var resend = new resend_1.Resend(process.env.RESEND_API_KEY);
 // Paystack Webhook Handler
 var paystackWebhookHandler = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var webhookReq, payload, signature, reference, isValidSignature, verificationResponse, isPaymentSuccessful, payloadClient, session, users, user, orders, order, data, _a, _b, error_1, err_1, errorMessage;
+    var webhookReq, payload, signature, reference, isValidSignature, verificationResponse, isPaymentSuccessful, payloadClient, session, users, user, userEmail, orders, order, data, _a, _b, error_1, err_1, errorMessage;
     var _c;
     var _d, _e, _f;
     return __generator(this, function (_g) {
@@ -56,13 +56,21 @@ var paystackWebhookHandler = function (req, res) { return __awaiter(void 0, void
             case 0:
                 _g.trys.push([0, 11, , 12]);
                 webhookReq = req;
-                payload = JSON.parse(webhookReq.rawBody.toString('utf8')) // Parse the payload from the raw body
-                ;
-                signature = webhookReq.headers['x-paystack-signature'] // Ensure it's a string
-                ;
+                // Check if rawBody is defined
+                if (!webhookReq.rawBody) {
+                    console.error('rawBody is undefined');
+                    return [2 /*return*/, res.status(400).send('Invalid request: rawBody is missing')];
+                }
+                payload = void 0;
+                try {
+                    payload = JSON.parse(webhookReq.rawBody.toString('utf8'));
+                }
+                catch (error) {
+                    console.error('Error parsing webhook rawBody:', error);
+                    return [2 /*return*/, res.status(400).send('Invalid JSON payload')];
+                }
+                signature = webhookReq.headers['x-paystack-signature'];
                 reference = (_d = payload.data) === null || _d === void 0 ? void 0 : _d.reference;
-                console.log('Webhook payload:', payload); // Log incoming payload
-                console.log('Received signature:', signature);
                 isValidSignature = function (signature, rawBody) {
                     var secret = process.env.PAYSTACK_SECRET_KEY;
                     if (!secret) {
@@ -79,28 +87,23 @@ var paystackWebhookHandler = function (req, res) { return __awaiter(void 0, void
                 return [4 /*yield*/, (0, paystack_1.verifyPayment)(reference)];
             case 1:
                 verificationResponse = _g.sent();
-                console.log('Verification Response:', verificationResponse);
                 isPaymentSuccessful = ((_e = verificationResponse.data) === null || _e === void 0 ? void 0 : _e.status) === 'success';
                 if (!isPaymentSuccessful) {
-                    return [2 /*return*/, res
-                            .status(400)
-                            .json({ error: 'Payment verification failed', details: verificationResponse })];
+                    return [2 /*return*/, res.status(400).json({ error: 'Payment verification failed', details: verificationResponse })];
                 }
                 if (!(payload.event === 'charge.success')) return [3 /*break*/, 10];
-                return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()
-                    // Extract userId from session or payload
-                ];
+                return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()];
             case 2:
                 payloadClient = _g.sent();
                 session = (_f = payload.data) === null || _f === void 0 ? void 0 : _f.metadata;
                 if (!session || !session.userId) {
                     return [2 /*return*/, res.status(400).json({ error: 'UserId not found in session metadata' })];
                 }
-                return [4 /*yield*/, payload.find({
+                return [4 /*yield*/, payloadClient.find({
                         collection: 'users',
                         where: {
                             id: {
-                                equals: session.metadata.userId
+                                equals: session.userId
                             }
                         }
                     })];
@@ -109,6 +112,10 @@ var paystackWebhookHandler = function (req, res) { return __awaiter(void 0, void
                 user = users[0];
                 if (!user)
                     return [2 /*return*/, res.status(404).json({ error: 'No such user exists.' })];
+                if (!user.email) {
+                    return [2 /*return*/, res.status(400).json({ error: 'User email is missing.' })];
+                }
+                userEmail = user.email;
                 return [4 /*yield*/, payloadClient.find({
                         collection: 'orders',
                         where: {
@@ -132,9 +139,7 @@ var paystackWebhookHandler = function (req, res) { return __awaiter(void 0, void
                             paymentReference: reference,
                             paymentProvider: 'paystack'
                         }
-                    })
-                    // send receipt
-                ];
+                    })];
             case 5:
                 // Update the order to mark it as paid and save the payment details
                 _g.sent();
@@ -144,12 +149,12 @@ var paystackWebhookHandler = function (req, res) { return __awaiter(void 0, void
                 _b = (_a = resend.emails).send;
                 _c = {
                     from: 'DigitalHippo <hello@joshtriedcoding.com>',
-                    to: [user.email], // Use the actual user object from the order
+                    to: [userEmail], // Use the actual user object from the order
                     subject: 'Thanks for your order! This is your receipt.'
                 };
                 return [4 /*yield*/, (0, ReceiptEmail_1.ReceiptEmailHtml)({
                         date: new Date(),
-                        email: user.email,
+                        email: userEmail,
                         orderId: order.id,
                         products: order.products
                     })];

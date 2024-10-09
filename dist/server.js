@@ -88,10 +88,13 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
             case 0:
                 webhookMiddleware = body_parser_1.default.json({
                     verify: function (req, _, buffer) {
-                        ;
-                        req.rawBody = buffer;
+                        // Verify that the rawBody is correctly attached
+                        if (buffer && buffer.length) {
+                            req.rawBody = buffer;
+                        }
                     }
                 });
+                app.post('/api/webhooks/paystack', webhookMiddleware, webhooks_1.paystackWebhookHandler);
                 return [4 /*yield*/, (0, get_payload_1.getPayloadClient)({
                         initOptions: {
                             express: app,
@@ -105,7 +108,6 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                     })];
             case 1:
                 payload = _a.sent();
-                app.post('/api/webhooks/paystack', webhookMiddleware, webhooks_1.paystackWebhookHandler);
                 if (process.env.NEXT_BUILD) {
                     app.listen(PORT, function () { return __awaiter(void 0, void 0, void 0, function () {
                         return __generator(this, function (_a) {
