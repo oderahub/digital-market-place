@@ -14,12 +14,18 @@ export const paystackWebhookHandler = async (req: express.Request, res: express.
   try {
     // Cast the request to your custom WebhookRequest
     const webhookReq = req as unknown as WebhookRequest
+
+      // Check if rawBody is defined
+    if (!webhookReq.rawBody) {
+      console.error('rawBody is undefined');
+      return res.status(400).send('Invalid request: rawBody is missing');
+    }
+
     const payload = JSON.parse(webhookReq.rawBody.toString('utf8')) // Parse the payload from the raw body
     const signature = webhookReq.headers['x-paystack-signature'] as string // Ensure it's a string
     const reference = payload.data?.reference
 
-    console.log('Webhook payload:', payload) // Log incoming payload
-    console.log('Received signature:', signature)
+  
 
     // Validate the webhook signature
     const isValidSignature = (signature: string, rawBody: Buffer) => {
@@ -39,7 +45,6 @@ export const paystackWebhookHandler = async (req: express.Request, res: express.
 
     // Call verifyPayment to verify the transaction on Paystack
     const verificationResponse = await verifyPayment(reference)
-    console.log('Verification Response:', verificationResponse)
     const isPaymentSuccessful = verificationResponse.data?.status === 'success'
 
     if (!isPaymentSuccessful) {

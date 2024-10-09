@@ -26,10 +26,16 @@ export type WebhookRequest = IncomingMessage & { rawBody: Buffer }
 
 const start = async () => {
   const webhookMiddleware = bodyParser.json({
-    verify: (req: express.Request, _, buffer) => {
-      ;(req as unknown as WebhookRequest).rawBody = buffer
+  verify: (req: express.Request, _, buffer) => {
+    // Verify that the rawBody is correctly attached
+    if (buffer && buffer.length) {
+      (req as unknown as WebhookRequest).rawBody = buffer
     }
-  })
+  }
+})
+
+
+  app.post('/api/webhooks/paystack', webhookMiddleware, paystackWebhookHandler)
 
   const payload = await getPayloadClient({
     initOptions: {
@@ -40,7 +46,7 @@ const start = async () => {
     }
   })
 
-  app.post('/api/webhooks/paystack', webhookMiddleware, paystackWebhookHandler)
+
 
   if (process.env.NEXT_BUILD) {
     app.listen(PORT, async () => {
