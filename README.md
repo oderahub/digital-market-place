@@ -1,7 +1,16 @@
-thumbnail](https://github.com/user-attachments/assets/aa44fd52-b36b-45ea-ab93-90b6bf587cd3)
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
+🛠️ Complete marketplace built from scratch in Next.js 14
+💻 Beautiful landing page & product pages included
+🎨 Custom artwork included
+💳 Full admin dashboard
+🛍️ Users can purchase and sell their own products
+🛒 Locally persisted shopping cart
+🔑 Authentication using Payload
+🖥
+🌟 Clean, modern UI using shadcn-ui
+✉️ Beautiful emails for signing up and after purchase
+✅ Admins can verify products to ensure high quality
+⌨️ 100% written in TypeScript
+🎁 ...much more
 ## Getting Started
 
 First, run the development server:!
